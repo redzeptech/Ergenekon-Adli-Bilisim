@@ -14,6 +14,16 @@ Ergenekon-Adli, Windows sistemlerindeki dijital ayak izlerini (Amcache ve Shimca
 
 ## Kullanim Kilavuzu
 
+## 🚀 Hizli Baslangic (Quick Start)
+
+### 1. Test ve Egitim Modu (Demo)
+
+Elinizde gercek bir `Amcache.hve` dosyasi yoksa, sistemin tum yeteneklerini (Sigma, Masking, Hashing) test etmek icin:
+
+```powershell
+.\Ergenekon_Forensics_v1.exe --demo --mask --sigma --output-dir demo_results
+```
+
 ### 1) Standalone EXE (Onerilen)
 
 Hicbir kurulum gerektirmeden direkt calistirilabilir:
