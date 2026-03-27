@@ -58,6 +58,6 @@ Bu arac, bir siber olayin teknik analizinde "Inkar Edilemezlik" ve "Veri Butunlu
 - ## 👥 Katkıda Bulunanlar (Contributors)
 
 - **Cristian Souza** (@cristianzsh) - *Original Author & Core Logic of Amcache-EvilHunter.*
-- **[Senin Kullanıcı Adın]** (@[redzeptech]) - *Refactoring, Forensic Integrity (Hashing), Multi-Artifact Correlation, and PII Masking layers.*
+- **[redzeptech]** (@[redzeptech]) - *Refactoring, Forensic Integrity (Hashing), Multi-Artifact Correlation, and PII Masking layers.*
 
 > Bu proje, açık kaynak topluluğunun gücüyle ve etik değerlere (attribution) sadık kalınarak geliştirilmiştir.
