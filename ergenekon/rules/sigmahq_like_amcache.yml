@@ -1,0 +1,18 @@
+rules:
+  - title: Suspicious Temp Execution
+    id: 7f4f8c6d-1111-4c4d-8f1c-4e17fc9a1001
+    level: high
+    detection:
+      selection1:
+        FilePath|re: '.*\\AppData\\Local\\Temp\\.*\.exe'
+      selection2:
+        FilePath|endswith: '.tmp.exe'
+      condition: selection1 or selection2
+
+  - title: Double Extension Executable
+    id: 7f4f8c6d-2222-4c4d-8f1c-4e17fc9a1002
+    level: critical
+    detection:
+      selection:
+        FilePath|re: '.*\.[a-z0-9]{2,4}\.exe$'
+      condition: selection

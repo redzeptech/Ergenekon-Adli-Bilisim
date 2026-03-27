@@ -1,0 +1,12 @@
+rules:
+  - title: Parenthesized Condition Example
+    id: 7f4f8c6d-3333-4c4d-8f1c-4e17fc9a1003
+    level: high
+    detection:
+      selection1:
+        FilePath|contains: '\AppData\'
+      selection2:
+        FilePath|endswith: '.tmp.exe'
+      selection3:
+        FilePath|endswith: '.pdf.exe'
+      condition: selection1 and (selection2 or selection3)

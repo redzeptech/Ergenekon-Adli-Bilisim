@@ -1,0 +1,20 @@
+rules:
+  - title: Any Selection Match
+    id: 7f4f8c6d-5555-4c4d-8f1c-4e17fc9a1005
+    level: medium
+    detection:
+      selection_a:
+        FilePath|contains: '\Temp\'
+      selection_b:
+        FilePath|contains: '\AppData\'
+      condition: 1 of selection_*
+
+  - title: All Selection Match
+    id: 7f4f8c6d-6666-4c4d-8f1c-4e17fc9a1006
+    level: high
+    detection:
+      selection_a:
+        FilePath|contains: '\Temp\'
+      selection_b:
+        FilePath|endswith: '.exe'
+      condition: all of selection_*

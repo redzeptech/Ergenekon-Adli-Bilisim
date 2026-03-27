@@ -1,0 +1,31 @@
+# Inno Setup ciktisi
+/output/
+
+# ftools genelde buyuk ikililer icerir; ihtiyaca gore satirlari acin
+# /ftools/
+
+# Runtime logs
+/logs/
+*.log
+
+# Windows binaries
+*.exe
+*.elf
+/binaries/
+
+# Python cache/build artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Local secrets / environment files
+.env
+.env.*
+*.env

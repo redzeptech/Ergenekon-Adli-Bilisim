@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ergenekon-adli"
+version = "0.2.0"
+description = "Ergenekon Adli Bilişim — modüler analiz paketi"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "python-registry>=1.3.1",
+    "PyYAML>=6",
+    "requests>=2.28",
+    "rich>=13",
+    "tabulate>=0.9",
+]
+
+[project.scripts]
+amcache-evilhunter = "ergenekon.cli.amcache_cli:main"
+uareport = "ergenekon.cli.userassist_cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ergenekon*"]

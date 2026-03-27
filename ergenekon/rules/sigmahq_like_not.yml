@@ -1,0 +1,10 @@
+rules:
+  - title: Temp Execution But Not Adobe
+    id: 7f4f8c6d-4444-4c4d-8f1c-4e17fc9a1004
+    level: high
+    detection:
+      selection1:
+        FilePath|contains: '\Temp\'
+      selection2:
+        FilePath|contains: 'Adobe'
+      condition: selection1 and not selection2

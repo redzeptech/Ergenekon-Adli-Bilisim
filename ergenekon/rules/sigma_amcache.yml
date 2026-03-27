@@ -1,0 +1,15 @@
+rules:
+  - id: proc_creation_win_susp_folders
+    description: Supheli dizinden (Temp/Recycle) calisan dosyalar
+    condition: '.*\\(Temp|Recycle\.bin|AppData\\Local\\Temp)\\.*\.exe'
+    level: high
+
+  - id: proc_creation_win_double_extension
+    description: "Cift uzantili supheli dosya (orn: fatura.pdf.exe)"
+    condition: '.*\.[a-z0-9]{2,4}\.exe$'
+    level: critical
+
+  - id: proc_creation_win_hex_filename
+    description: Sadece rastgele karakterlerden olusan dosya adi
+    condition: '.*\\([a-f0-9]{8,})\.exe$'
+    level: medium

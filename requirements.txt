@@ -1,0 +1,2 @@
+# ergenekon paketi + CLI bağımlılıkları (tek kaynak: pyproject.toml)
+-e .
