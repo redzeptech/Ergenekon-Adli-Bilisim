@@ -54,3 +54,10 @@ Bu arac, bir siber olayin teknik analizinde "Inkar Edilemezlik" ve "Veri Butunlu
 - **Baglam:** Bir dosyanin sistemde bulunmasi (Amcache) ile calistirilmasi (Shimcache) arasindaki farki bilimsel olarak raporlar.
 - **Anlam:** Sigma kurallari ile karmasik veriyi "Anlamli Bulgulara" donusturur.
 - **Sonuc:** SHA-256 muhurlleme ile manipule edilemez bir adli cikti sunar.
+
+- ## 👥 Katkıda Bulunanlar (Contributors)
+
+- **Cristian Souza** (@cristianzsh) - *Original Author & Core Logic of Amcache-EvilHunter.*
+- **[Senin Kullanıcı Adın]** (@[redzeptech]) - *Refactoring, Forensic Integrity (Hashing), Multi-Artifact Correlation, and PII Masking layers.*
+
+> Bu proje, açık kaynak topluluğunun gücüyle ve etik değerlere (attribution) sadık kalınarak geliştirilmiştir.
