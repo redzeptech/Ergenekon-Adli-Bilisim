@@ -72,6 +72,47 @@ def _cli_version() -> str:
         return __version__
 
 
+def _build_demo_amcache_dataset() -> dict[str, dict[str, dict[str, Any]]]:
+    """Return a small synthetic Amcache-like dataset for smoke tests (no hive needed)."""
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    return {
+        "Amcache": {
+            "0001": {
+                "Name": "svch0st.exe",
+                "Publisher": "",
+                "Version": "1.0.0",
+                "OriginalFileName": "svchost.exe",
+                "LowerCaseLongPath": r"c:\users\demo\appdata\roaming\svch0st.exe",
+                "FilePath": r"c:\users\demo\appdata\roaming\svch0st.exe",
+                "SHA-1": "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+                "Size": 1337,
+                "RecordDate": now,
+            },
+            "0002": {
+                "Name": "chrome.exe",
+                "Publisher": "Google LLC",
+                "Version": "123.0.0.0",
+                "OriginalFileName": "chrome.exe",
+                "LowerCaseLongPath": r"c:\program files\google\chrome\application\chrome.exe",
+                "FilePath": r"c:\program files\google\chrome\application\chrome.exe",
+                "SHA-1": "1234567890abcdef1234567890abcdef12345678",
+                "Size": 42_000_000,
+                "RecordDate": now,
+                "IsOsComponent": False,
+            },
+        }
+    }
+
+
+def _ensure_demo_evidence_file(output_dir: Path) -> Path:
+    """Create a small placeholder evidence file so hashing/sealing stays intact."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    path = output_dir / "DEMO_Amcache.hve"
+    if not path.exists():
+        path.write_bytes(b"ERGENEKON_DEMO_AMCACHE_HIVE_PLACEHOLDER\n")
+    return path
+
+
 def prompt_overwrite(path: Path) -> None:
     """Prompt before overwriting an existing file.
 
@@ -953,7 +994,13 @@ def main() -> None:
         action="version",
         version=f"AmCache-EvilHunter (ergenekon-adli {ver})",
     )
-    parser.add_argument("-i", "--input", type=Path, required=False, help="Amcache.hve yolu")
+    input_group = parser.add_mutually_exclusive_group(required=False)
+    input_group.add_argument("-i", "--input", type=Path, help="Amcache.hve yolu")
+    input_group.add_argument(
+        "--demo",
+        action="store_true",
+        help="Demo modu: sahte Amcache dataset ile smoke-test (admin/hive gerekmez)",
+    )
     parser.add_argument(
         "-s",
         "--system",
@@ -1091,8 +1138,11 @@ def main() -> None:
             console.print(line)
         sys.exit(0 if ok else 1)
 
-    if not args.input:
-        console.print("[bold red]Error:[/] --input zorunludur (verify modu haric).", style="red")
+    if not args.input and not args.demo:
+        console.print(
+            "[bold red]Error:[/] --input zorunludur (veya --demo kullanin).",
+            style="red",
+        )
         sys.exit(1)
     if args.system and not args.authorized_use_confirm:
         console.print(
@@ -1101,8 +1151,13 @@ def main() -> None:
         )
         sys.exit(1)
 
+    if args.demo:
+        evidence_path = _ensure_demo_evidence_file(args.output_dir)
+    else:
+        evidence_path = args.input
+
     try:
-        evidence_hash = _compute_file_sha256(args.input)
+        evidence_hash = _compute_file_sha256(evidence_path)
     except Exception as exc:
         logger.exception("Evidence hash could not be computed: %s", exc)
         console.print(
@@ -1157,8 +1212,11 @@ def main() -> None:
             _print_forensic_context(forensic_header)
         if args.show_forensic_context_json:
             print(json.dumps(forensic_header, ensure_ascii=False, indent=2))
-        engine = AmcacheEngine(args.input, start=start_dt, end=end_dt)
-        data = engine.run()
+        if args.demo:
+            data = _build_demo_amcache_dataset()
+        else:
+            engine = AmcacheEngine(args.input, start=start_dt, end=end_dt)
+            data = engine.run()
         logger.info("Amcache parse completed. categories=%d", len(data))
 
         if search_terms:
@@ -1269,7 +1327,7 @@ def main() -> None:
             json_path=args.json,
             csv_path=args.csv,
             report_path=args.report_md,
-            input_path=args.input,
+            input_path=evidence_path,
             forensic_header=forensic_header,
             analysis_metadata=analysis_metadata,
         )
@@ -1282,7 +1340,7 @@ def main() -> None:
         custody_path = _append_custody_event(
             output_dir=args.output_dir,
             forensic_header=forensic_header,
-            input_path=args.input,
+            input_path=evidence_path,
             report_hashes=report_hashes,
             signatures=signatures,
         )
@@ -1295,7 +1353,7 @@ def main() -> None:
         case_verification_path, case_verification_md_path = _write_runtime_case_verification(
             output_dir=args.output_dir,
             forensic_header=forensic_header,
-            input_path=args.input,
+            input_path=evidence_path,
             report_hashes=report_hashes,
             signing_key=signing_key,
             json_path=target_json,
@@ -1326,7 +1384,7 @@ def main() -> None:
             package_path = _build_sealed_case_package(
                 output_dir=args.output_dir,
                 package_name=args.sealed_package_name,
-                evidence_input_path=args.input,
+                evidence_input_path=evidence_path,
                 files_to_include=include_paths,
             )
             manifest_path = _write_package_manifest(
