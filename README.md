@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ergenekon-Adli-Bilisim
 
 ## Vitrini Kur
@@ -286,3 +287,6 @@ Bu araçlar **hukuki uyumluluk garantisi vermez**; paylaşım öncesi kurum içi
 
 Üçüncü taraf araçların lisansları kendi paketlerindedir; bu depo üst projenin lisansına tabi katman içerir.
 -->
+=======
+# Ergenekon-Adli-Bilisim
+>>>>>>> a8adf8528107b91e30df0712bb21a9d837c177d6
